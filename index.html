@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VisiumPP</title><link rel="stylesheet" href="css/style.css?v=5"></head>
+<body><div class="loading-screen" id="loading-screen" aria-label="Carregando VisiumPP"><div class="loading-content"><div class="loading-mark">V<span>·</span></div><div class="loading-name">VISIUM<span>PP</span></div><p>Alguns efeitos esquisitos</p><div class="loading-line"><div></div></div></div></div><main id="app-main" class="app-enter">
+<nav class="tabs" aria-label="Experimentos"><span class="tab-indicator" aria-hidden="true"></span><button class="active" id="tab-motion">Movimento</button><button id="tab-color">Cores</button><button id="tab-afterimage">Pós-imagem</button></nav>
+<section id="motion-panel"><h1>Movimento</h1>
+<div class="presets motion-modes" role="group" aria-label="Modo de movimento">
+  <button type="button" class="active" id="mode-ruler" aria-pressed="true">Efeito régua</button>
+  <button type="button" id="mode-saitama" aria-pressed="false">Efeito Saitama/Goku</button>
+</div>
+<div id="ruler-panel">
+  <p class="description">Uma imagem pode virar três! Funciona melhor em telas de 120 Hz.</p>
+  <div class="card">
+    <div class="stage ruler-stage" id="ruler-stage">
+      <div class="square ruler-square" id="ruler-square">
+        <span id="ruler-letter">A</span>
+        <img id="ruler-custom-image" alt="Imagem escolhida para a Régua" hidden>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="start-ruler">Dar um peteleco</button>
+      <button class="secondary" id="stop-ruler" disabled>Parar</button>
+    </div>
+    <div class="actions">
+      <label class="secondary image-picker">
+        Escolher imagem
+        <input type="file" id="ruler-image-file" accept="image/*,.gif">
+      </label>
+      <button class="secondary" id="reset-ruler-image" disabled>Voltar ao A</button>
+    </div>
+    <p class="motion-image-error" id="ruler-image-error" role="status"></p>
+  </div>
+</div>
+<div id="saitama-panel" hidden>
+  <p class="description">Uma imagem pode virar três! Funciona melhor em telas de 120 Hz.</p>
+  <div class="card">
+    <div class="stage" id="motion-stage">
+      <div class="square" id="square">
+        <span id="saitama-letter">A</span>
+        <img id="saitama-custom-image" alt="Imagem escolhida para o efeito Saitama/Goku" hidden>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="start-motion">Iniciar vibração</button>
+      <button class="secondary" id="stop-motion" disabled>Parar</button>
+    </div>
+    <div class="actions">
+      <label class="secondary image-picker">
+        Escolher imagem
+        <input type="file" id="saitama-image-file" accept="image/*,.gif">
+      </label>
+      <button class="secondary" id="reset-saitama-image" disabled>Voltar ao A</button>
+    </div>
+    <p class="motion-image-error" id="saitama-image-error" role="status"></p>
+  </div>
+  <div class="card">
+    <div class="control">
+      <label for="separation">Separação <output id="separation-value">200 px</output></label>
+      <input id="separation" type="range" min="10" max="200" value="200">
+    </div>
+    <div class="control">
+      <label for="duration">Estabilização <output id="duration-value">20 s</output></label>
+      <input id="duration" type="range" min="1" max="20" value="20">
+    </div>
+    <div class="control">
+      <label for="motion-rate">Frequência <output id="motion-rate-value">40 Hz</output></label>
+      <input id="motion-rate" type="range" min="1" max="200" value="40">
+      <div class="presets" id="motion-presets">
+        <button data-rate="40">40 Hz</button><button data-rate="60">60 Hz</button><button data-rate="120">120 Hz</button>
+        <button data-rate="200">200 Hz</button><button data-rate="1000">1.000 Hz</button><button data-rate="20000">20.000 Hz</button>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<section id="color-panel" hidden><h1>Fusão Temporal de Cores</h1><p class="description">Duas cores podem virar cinza! Evite olhar por muito tempo.</p>
+<p class="color-warning"><strong>Não use</strong> se você tem fotossensibilidade ou epilepsia fotossensível.</p>
+<div class="card"><div class="stage" id="color-stage"></div><div class="actions"><button class="primary" id="start-color">Iniciar cores</button><button class="secondary" id="stop-color" disabled>Parar</button></div></div><div class="card"><div class="control"><label>Frequência <output id="color-rate-value">120 Hz</output></label><input id="color-rate" type="range" min="1" max="120" value="120"><div class="presets" id="color-presets"><button data-rate="10">10 Hz</button><button data-rate="20">20 Hz</button><button data-rate="30">30 Hz</button><button data-rate="60">60 Hz</button><button data-rate="90">90 Hz</button><button data-rate="120">120 Hz</button></div></div></div></section>
+<section id="afterimage-panel" hidden><h1>Pós-imagem Negativa</h1><p class="description">A imagem volta a ter cor! Mantenha o olhar no círculo central.</p><div class="card"><div class="stage afterimage-stage"><img id="gray-image" src="images/cinza.jpg" alt="Imagem sem saturação"><img id="negative-image" src="images/negativa.jpg" alt="Imagem invertida"></div><div class="timer-track"><div class="timer-progress" id="timer-progress"></div></div><div class="phase-row"><span id="phase-label">Pronto</span><strong id="countdown">23 s</strong></div><div class="actions"><button class="primary" id="start-afterimage">Iniciar efeito</button><button class="secondary" id="stop-afterimage" disabled>Parar</button></div></div></section>
+<div class="card stats"><div class="stat"><small>FPS</small><strong id="fps">—</strong></div><div class="stat"><small>Estado</small><strong id="status">Parado</strong></div><div class="stat"><small>Intensidade</small><strong id="intensity">0%</strong></div></div>
+</main>
+<dialog class="color-notice" id="color-notice" aria-labelledby="color-notice-title" aria-describedby="color-notice-risk">
+  <h2 id="color-notice-title">Você tem epilepsia ou fotossensibilidade?</h2>
+  <p id="color-notice-risk">As cores piscam rapidamente e podem desencadear crises. Se sim ou se tiver dúvida, volte.</p>
+  <p>Os desenvolvedores não se responsabilizam por reações ao efeito.</p>
+  <div class="actions">
+    <button class="secondary" id="cancel-color-notice" type="button" autofocus>Voltar</button>
+    <button class="primary" id="accept-color-notice" type="button">Não, continuar</button>
+  </div>
+</dialog>
+<script src="js/main.js?v=7" defer></script></body></html>
